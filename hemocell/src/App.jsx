@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import HomePage from "./components/pages/home/home-page";
 import NeedBloodPage from "./components/pages/need-blood/need-blood-page";
-import ContactPage from "./components/pages/contact/contact-page";
+
 
 
 import RegisterPage from "./components/pages/auth/RegisterPage";
@@ -26,7 +26,7 @@ export default function App() {
 			<Routes>
 				<Route exact path="/" element={<HomePage />} />
 				<Route path="/need-blood" element={<NeedBloodPage />} />
-				<Route path="/contact" element={<ContactPage />} />
+				
 				
 				<Route path="/register" element={<RegisterPage />} />
                 <Route path="/login" element={<LoginPage />} />
