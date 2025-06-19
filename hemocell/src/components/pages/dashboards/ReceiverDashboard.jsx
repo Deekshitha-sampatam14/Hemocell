@@ -8,11 +8,34 @@ export default function ReceiverDashboard() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-    if (storedUser && storedUser.userType === "receiver") {
-      setReceiver(storedUser);
+  const storedUser = JSON.parse(localStorage.getItem("user"));
+  const fetchUpdatedUser = async () => {
+    try {
+      const baseUrl = process.env.NODE_ENV === "production"
+        ? "https://hemocell-backend.onrender.com"
+        : "http://localhost:5000";
+
+      const res = await fetch(`${baseUrl}/api/auth/get-user-by-email`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email: storedUser.email })
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setReceiver(data.user);
+      }
+    } catch (err) {
+      console.error("Error fetching updated receiver:", err);
     }
-  }, []);
+  };
+
+  if (storedUser && storedUser.userType === "receiver") {
+    fetchUpdatedUser();
+  }
+}, []);
 
   const viewUserProfile = async (email) => {
     try {
