@@ -5,9 +5,6 @@ import NeedBloodPage from "./components/pages/need-blood/need-blood-page";
 import ContactPage from "./components/pages/contact/contact-page";
 
 
-import Dashboard from "../src/components/views/admin/dashboard";
-
-
 import RegisterPage from "./components/pages/auth/RegisterPage";
 import LoginPage from "./components/pages/auth/LoginPage";
 import DonorList from  "./components/pages/need-blood/donor-list";
