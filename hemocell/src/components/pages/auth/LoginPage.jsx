@@ -21,7 +21,11 @@ export default function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/login", formData);
+      const baseUrl = process.env.NODE_ENV === "production"
+  ? "https://hemocell-backend.onrender.com"
+  : "http://localhost:5000";
+
+      const response = await axios.post(`${baseUrl}/api/auth/login`, formData);
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("user", JSON.stringify(response.data.user));
       localStorage.setItem("email", response.data.user.email);

@@ -31,9 +31,14 @@ const NeedBloodPage = () => {
 		console.log(formData);
 
 		localStorage.setItem("email", formData.email);
+
+		const baseUrl = process.env.NODE_ENV === "production"
+  ? "https://hemocell-backend.onrender.com"
+  : "http://localhost:5000";
+
 	  
 		// Send the location data to the backend to fetch users (donors)
-		Axios.post("http://localhost:5000/api/auth/get-donors-by-location", {
+		Axios.post(`${baseUrl}/api/auth/get-donors-by-location`, {
 		  location: formData.location,
 		})
 		  .then((response) => {

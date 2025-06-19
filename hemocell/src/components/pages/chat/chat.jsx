@@ -5,7 +5,11 @@ import io from "socket.io-client";
 import HeaderComponent from "../../sections/header/header-component";
 import FooterComponent from "../../sections/footer/footer-component";
 
-const socket = io("http://localhost:5000");
+const baseUrl = process.env.NODE_ENV === "production"
+  ? "https://hemocell-backend.onrender.com"
+  : "http://localhost:5000";
+
+const socket = io(baseUrl);
 
 const Chat = () => {
   const location = useLocation();

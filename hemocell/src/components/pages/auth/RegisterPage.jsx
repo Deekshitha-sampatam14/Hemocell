@@ -28,7 +28,11 @@ export default function RegisterPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/register", formData);
+      const baseUrl = process.env.NODE_ENV === "production"
+  ? "https://hemocell-backend.onrender.com"
+  : "http://localhost:5000";
+
+      const response = await axios.post(`${baseUrl}/api/auth/register`, formData);
       if (response.status === 201) {
         alert("Registration successful!");
         setQrVisible(true);

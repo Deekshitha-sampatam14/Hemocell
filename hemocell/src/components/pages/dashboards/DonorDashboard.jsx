@@ -16,7 +16,11 @@ export default function DonorDashboard() {
 
   const acceptRequest = async (requestId, receiverEmail, Status) => {
     try {
-      const res = await fetch("http://localhost:5000/api/auth/accept-blood-request", {
+      const baseUrl = process.env.NODE_ENV === "production"
+  ? "https://hemocell-backend.onrender.com"
+  : "http://localhost:5000";
+
+      const res = await fetch(`${baseUrl}/api/auth/accept-blood-request`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

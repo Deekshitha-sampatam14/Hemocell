@@ -21,7 +21,11 @@ const Chatbot = () => {
     setMessages(newMessages);
 
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/chatbot", {
+      const baseUrl = process.env.NODE_ENV === "production"
+  ? "https://hemocell-backend.onrender.com"
+  : "http://localhost:5000";
+
+      const res = await axios.post(`${baseUrl}/api/auth/chatbot`, {
         message: input,
       });
 

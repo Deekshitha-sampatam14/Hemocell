@@ -22,7 +22,11 @@ const DonorProfile = () => {
     const donorEmail = user.email;
 
     try {
-      const res = await fetch("http://localhost:5000/api/auth/request-blood", {
+      const baseUrl = process.env.NODE_ENV === "production"
+  ? "https://hemocell-backend.onrender.com"
+  : "http://localhost:5000";
+
+      const res = await fetch(`${baseUrl}/api/auth/request-blood`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
