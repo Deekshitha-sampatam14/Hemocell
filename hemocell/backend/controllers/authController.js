@@ -226,37 +226,30 @@ function sendEmailNotification(donorEmail, receiverEmail, request, Type) {
 }
 
 export const acceptBloodRequest = async (req, res) => {
-  const { requestId, receiverEmail ,Status} = req.body;
+  const { requestId, receiverEmail, Status } = req.body;
 
   try {
-    // Find the donor
+    // Update in donor
     const donor = await Donor.findOne({ "requests._id": requestId });
-    if (!donor) {
-      return res.status(404).json({ message: "Donor not found" });
-    }
+    if (!donor) return res.status(404).json({ message: "Donor not found" });
 
-    // Find the request in the donor's requests
     const request = donor.requests.id(requestId);
-    if (!request) {
-      return res.status(404).json({ message: "Request not found" });
-    }
+    if (!request) return res.status(404).json({ message: "Request not found" });
 
-    // Update request status to 'Accepted' in the donor model
     request.status = Status;
     await donor.save();
 
-    // Find the receiver
+    // Update in receiver (fix is here)
     const receiver = await Receiver.findOne({ email: receiverEmail });
     if (receiver) {
-      // Update request status to 'Accepted' in the receiver model
-      const receiverRequest = receiver.requests.find(req => req.donorEmail === donor.email);
+      const receiverRequest = receiver.requests.find(req => req._id.toString() === requestId);
       if (receiverRequest) {
-        receiverRequest.status = "Accepted";
+        receiverRequest.status = Status; // Use dynamic Status (Accepted/Declined)
         await receiver.save();
       }
     }
 
-    // Send email to the receiver
+    // Optional: Notify via email
     sendEmailToReceiver(receiverEmail, donor.email);
 
     return res.status(200).json({ message: `Request ${Status} successfully` });
@@ -265,6 +258,7 @@ export const acceptBloodRequest = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
 
 // Function to send an email to the receiver
 function sendEmailToReceiver(receiverEmail, donorEmail) {

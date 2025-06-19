@@ -106,13 +106,13 @@ export default function DonorDashboard() {
                       <div className="flex flex-wrap gap-4 mt-4">
                         <button
                           onClick={() => acceptRequest(req._id, req.receiverEmail, "Accepted")}
-                          className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md font-semibold transition"
+                         	className="w-full bg-dark_green hover:bg-green text-white font-semibold py-3 px-6 rounded-md transition"
                         >
                           Accept Request
                         </button>
                         <button
                           onClick={() => acceptRequest(req._id, req.receiverEmail, "Declined")}
-                          className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-md font-semibold transition"
+                         	className="w-full bg-dark_red hover:bg-red text-white font-semibold py-3 px-6 rounded-md transition"
                         >
                           Decline Request
                         </button>
