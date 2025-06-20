@@ -5,6 +5,9 @@ import Receiver from '../models/receiverModel.js';
 import nodemailer from "nodemailer";
 import Chat from '../models/chatModel.js';
 
+import fetch from "node-fetch";
+
+
 import fs from "fs/promises";
 const systemPrompt = await fs.readFile("chatPrompt.txt", "utf8");
 
@@ -338,11 +341,12 @@ export const chatBot = async (req, res) => {
 
 
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-      method: "POST",
+      method: "GET",
       headers: {
-        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+        Authorization: `Bearer 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`,
         "Content-Type": "application/json",
       },
+
       body: JSON.stringify({
   model: "moonshotai/kimi-dev-72b:free", // change this
   messages: [
