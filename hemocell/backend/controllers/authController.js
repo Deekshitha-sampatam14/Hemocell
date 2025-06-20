@@ -359,20 +359,7 @@ export const chatBot = async (req, res) => {
 
     });
 
-    console.log("Request Headers:", {
-  Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
-  "Content-Type": "application/json",
-  "HTTP-Referer": "https://hemocell-lake.vercel.app",
-  "User-Agent": "HemoCell Chatbot"
-});
-console.log("Request Body:", {
-  model: "openai/gpt-3.5-turbo",
-  messages: [
-    { role: "system", content: chatPrompt },
-    { role: "user", content: userQuestion },
-  ]
-});
-
+    
     const result = await response.json();
     console.log("Full OpenRouter response:", result);
 
