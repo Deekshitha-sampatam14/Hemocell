@@ -21,6 +21,8 @@ const io = new Server(server, {
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
+
+
 // Email Transporter
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -32,7 +34,9 @@ const transporter = nodemailer.createTransport({
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: "https://hemocell-lake.vercel.app"
+}));
 app.use("/api/auth", authRoutes);
 
 // Store online users and their socket IDs

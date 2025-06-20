@@ -343,8 +343,10 @@ export const chatBot = async (req, res) => {
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
-        Authorization: `Bearer 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`,
+        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
         "Content-Type": "application/json",
+        "HTTP-Referer": "https://hemocell-backend.onrender.com",
+         "User-Agent": "HemoCell Chatbot"
       },
 
       body: JSON.stringify({
@@ -356,6 +358,20 @@ export const chatBot = async (req, res) => {
 })
 
     });
+
+    console.log("Request Headers:", {
+  Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
+  "Content-Type": "application/json",
+  "HTTP-Referer": "https://hemocell-lake.vercel.app",
+  "User-Agent": "HemoCell Chatbot"
+});
+console.log("Request Body:", {
+  model: "openai/gpt-3.5-turbo",
+  messages: [
+    { role: "system", content: chatPrompt },
+    { role: "user", content: userQuestion },
+  ]
+});
 
     const result = await response.json();
     console.log("Full OpenRouter response:", result);
