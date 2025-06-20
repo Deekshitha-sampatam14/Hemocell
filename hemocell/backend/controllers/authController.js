@@ -344,12 +344,13 @@ export const chatBot = async (req, res) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "openai/gpt-3.5-turbo",
-        messages: [
-          { role: "system", content: chatPrompt },
-          { role: "user", content: userQuestion },
-        ],
-      }),
+  model: "moonshotai/kimi-dev-72b:free", // change this
+  messages: [
+    { role: "system", content: chatPrompt },
+    { role: "user", content: userQuestion },
+  ],
+})
+
     });
 
     const result = await response.json();
