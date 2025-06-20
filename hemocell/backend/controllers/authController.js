@@ -341,7 +341,7 @@ export const chatBot = async (req, res) => {
 
 
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-      method: "GET",
+      method: "POST",
       headers: {
         Authorization: `Bearer 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`,
         "Content-Type": "application/json",
