@@ -334,6 +334,9 @@ export const chatBot = async (req, res) => {
 
     const chatPrompt = await fs.readFile("chatPrompt.txt", "utf8");
 
+    console.log("OpenRouter API Key:", process.env.OPENAI_API_KEY);
+
+
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
