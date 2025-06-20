@@ -325,11 +325,9 @@ export const getMessages= async (req, res) => {
   }
 };
 
-export const chatBot =async (req,res) => {
-
+export const chatBot = async (req, res) => {
   try {
     const userQuestion = req.body.message;
-
     if (!userQuestion) {
       return res.status(400).json({ error: "No message provided" });
     }
@@ -339,7 +337,7 @@ export const chatBot =async (req,res) => {
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
-        Authorization: `Bearer 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`,
+        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -352,16 +350,17 @@ export const chatBot =async (req,res) => {
     });
 
     const result = await response.json();
+    console.log("Full OpenRouter response:", result);
 
-    console.log("AI response:", result);
-
-    if (result.choices && result.choices.length > 0) {
-      return res.status(200).json({ reply: result.choices[0].message.content });
+    const reply = result?.choices?.[0]?.message?.content;
+    if (reply) {
+      return res.status(200).json({ reply });
     } else {
-      return res.status(500).json({ error: "No response from AI" });
+      return res.status(200).json({ reply: "⚠️ Sorry, I couldn't generate a proper response." });
     }
   } catch (error) {
     console.error("Chatbot error:", error.message);
     return res.status(500).json({ error: "AI error" });
   }
 };
+
