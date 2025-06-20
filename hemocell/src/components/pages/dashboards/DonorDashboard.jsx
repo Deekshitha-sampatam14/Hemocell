@@ -49,7 +49,12 @@ export default function DonorDashboard() {
 
   const viewUserProfile = async (email) => {
     try {
-      const res = await fetch("http://localhost:5000/api/auth/get-user-by-email", {
+
+      const baseUrl = process.env.NODE_ENV === "production"
+  ? "https://hemocell-backend.onrender.com"
+  : "http://localhost:5000";
+
+      const res = await fetch(`${baseUrl}/api/auth/get-user-by-email`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

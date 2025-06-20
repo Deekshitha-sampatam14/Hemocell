@@ -229,7 +229,7 @@ export const acceptBloodRequest = async (req, res) => {
   const { requestId, receiverEmail, Status } = req.body;
 
   try {
-    // Update in donor
+    // Update donor request
     const donor = await Donor.findOne({ "requests._id": requestId });
     if (!donor) return res.status(404).json({ message: "Donor not found" });
 
@@ -239,17 +239,20 @@ export const acceptBloodRequest = async (req, res) => {
     request.status = Status;
     await donor.save();
 
-    // Update in receiver (fix is here)
+    // Update receiver request using donorEmail and date
     const receiver = await Receiver.findOne({ email: receiverEmail });
     if (receiver) {
-      const receiverRequest = receiver.requests.find(req => req._id.toString() === requestId);
+      const receiverRequest = receiver.requests.find(req =>
+        req.donorEmail === donor.email &&
+        new Date(req.date).getTime() === new Date(request.date).getTime()
+      );
+
       if (receiverRequest) {
-        receiverRequest.status = Status; // Use dynamic Status (Accepted/Declined)
+        receiverRequest.status = Status;
         await receiver.save();
       }
     }
 
-    // Optional: Notify via email
     sendEmailToReceiver(receiverEmail, donor.email);
 
     return res.status(200).json({ message: `Request ${Status} successfully` });
